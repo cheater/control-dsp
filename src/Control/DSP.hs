@@ -16,6 +16,10 @@ type IR t a = t (Maybe a) -> a -> t (Maybe a) -> a
 -- | For selecting the neighbours of a sample.
 type Taking t a = [a] -> t (Maybe a)
 
+-- | Generalized convolution.
+-- | Also a generalized map.
+-- | And a special-cased scan which forgets its history after n steps.
+-- | (generalizes both scanl and scanr at the same time)
 convolve  :: IR t a -> Taking t a        -> [a] -> [a]
 convolve  ir take = convolve' ir take []
 
@@ -28,6 +32,11 @@ convolve' ir take previous (current:further) = currentProcessed:furtherProcessed
     previousRelevant = take previous
     furtherRelevant  = take further
 
+-- | Distributes a list into two lists, depending on some binary property of its
+-- | elements. No elements are lost, each element goes into one list exactly.
+-- |
+-- | You could also generalize distribute for any Eq or Ord or Enum, making it
+-- | distribute to a Map rather than a tuple.
 distribute :: (a -> Bool) -> [a] -> ([a], [a])
 distribute _    []     = ([], [])
 distribute pred (x:xs) =
