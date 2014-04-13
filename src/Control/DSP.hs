@@ -20,6 +20,10 @@ type Taking t a = [a] -> t (Maybe a)
 -- | Also a generalized map.
 -- | And a special-cased scan which forgets its history after n steps.
 -- | (generalizes both scanl and scanr at the same time)
+-- |
+-- | You could generalize the type to any Traversable, not just lists.
+-- | You could probably make special case versions for trees, graphs,
+-- | or other data structures.
 convolve  :: IR t a -> Taking t a        -> [a] -> [a]
 convolve  ir take = convolve' ir take []
 
