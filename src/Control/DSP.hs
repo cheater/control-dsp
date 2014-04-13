@@ -27,3 +27,12 @@ convolve' ir take previous (current:further) = currentProcessed:furtherProcessed
     furtherProcessed = convolve' ir take (current:previous) further
     previousRelevant = take previous
     furtherRelevant  = take further
+
+distribute :: (a -> Bool) -> [a] -> ([a], [a])
+distribute _    []     = ([], [])
+distribute pred (x:xs) =
+  case pred x of
+    True  -> (x:good,   bad)
+    False -> (  good, x:bad)
+  where
+    (good, bad) = distribute pred xs
