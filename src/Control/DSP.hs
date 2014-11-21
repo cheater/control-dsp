@@ -24,12 +24,6 @@ type Taking t a = [a] -> t (Maybe a)
 -- | You could generalize the type to any Traversable, not just lists.
 -- | You could probably make special case versions for trees, graphs,
 -- | or other data structures.
---
--- todo: rewrite as cobind.
--- zippers are lists that you can hang up at a point. It has a root and two
--- endpoints.
--- the zipper of a list has the right kind of cobind for us, because it goes
--- through the whole list and hangs it up at every element.
 convolve  :: IR t a -> Taking t a        -> [a] -> [a]
 convolve  ir take = convolve' ir take []
 
@@ -56,37 +50,3 @@ distribute pred (x:xs) =
   where
     (good, bad) = distribute pred xs
 
--- todo: add a high pass filter, which takes a sequence and outputs Nothing
--- when nothing has changed, or Just x if something has changed. To check
--- if something has changed, you can have a distance function, which will
--- take the previous sample and the current sample and compare. If the delta
--- is too high, then it will trigger. If it is not, then it will not trigger
--- and will output Nothing. When it triggers it outputs Just with the value
--- of the current sample. We could also use a binary function which takes
--- two samples and outputs Bool. This will likely be the easiest to use and
--- to understand.
---
--- todo: add another high pass filter, which is more continuous, but only
--- works on stuff that's like Float. Add a typeclass which defines that
--- operations similar to the ones on Float can be performed on the type.
---
--- todo: add a low pass filter, similar to the above, using the float-like
--- typeclass. It will hold state (as the hpf should as well) and will
--- move the state halfway towards the signal at every step (or move another
--- fraction of the way, depending on what cutoff you set!).
---
--- todo: using the Float-like typeclass, add an oversampling filter which will
--- let you perform operations on signals at a higher resolution than the signal
--- itself.
---
--- todo: add a comparator and/or a non-linearity. You can use the comparator
--- and "continuous" (proper) high pass filter to implement something similar
--- to the crude change-detecting high-pass filter from before.
---
--- todo: think about whether heterodyning can be useful for anything at all?
---
--- what about pitch shifting? Can this be useful?
---
--- What about the Z transform?
---
--- What about iir filters?
