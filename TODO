@@ -38,3 +38,10 @@ What about pitch shifting? Can this be useful?
 What about the Z transform?
 
 What about IIR filters?
+
+Consider using a continuous-domain and continuous-codomain definition for all
+values; for example, Bool can be expressed as a continuous real function;
+evaluating its logical value can be expressed with a sgn (signum) function;
+this can be approximated in a continuous way with e.g. a Taylor series. If all
+functions we use are continuous, we can benefit from stronger computational
+properties.
