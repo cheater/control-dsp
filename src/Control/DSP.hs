@@ -24,6 +24,12 @@ type Taking t a = [a] -> t (Maybe a)
 -- | You could generalize the type to any Traversable, not just lists.
 -- | You could probably make special case versions for trees, graphs,
 -- | or other data structures.
+--
+-- todo: rewrite as cobind.
+-- zippers are lists that you can hang up at a point. It has a root and two
+-- endpoints.
+-- the zipper of a list has the right kind of cobind for us, because it goes
+-- through the whole list and hangs it up at every element.
 convolve  :: IR t a -> Taking t a        -> [a] -> [a]
 convolve  ir take = convolve' ir take []
 
